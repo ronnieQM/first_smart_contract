@@ -174,21 +174,23 @@ contract('jobscontract', accounts => {
 
             await deployedContract.sendTransaction({
                 from: client,
-                value: web3.toWei(5, 'ether')
+                value: web3.utils.toWei("5", 'ether')
             })
 
             const payAmountWeiBefore = await deployedContract.payAmount()
-            const payAmountBefore = web3.fromWei(payAmountWeiBefore, 'ether')
+            const payAmountBefore = web3.utils.fromWei(payAmountWeiBefore, 'ether')
 
             await deployedContract.sendPayAmountToTasker({
                 from: deployer
             })
 
             const payAmountWeiAfter = await deployedContract.payAmount()
-            const payAmountAfter = web3.fromWei(payAmountWeiAfter, 'ether')
+            const payAmountAfter = web3.utils.fromWei(payAmountWeiAfter, 'ether')
 
             expect(payAmountAfter - payAmountBefore).to.equal(-5)
-            expect(payAmountAfter.toNumber()).to.equal(0)
+
+            // expect(payAmountAfter.toNumber()).to.equal(0)
+            expect(parseInt(payAmountAfter)).to.equal(0)
         })
     })
 })
