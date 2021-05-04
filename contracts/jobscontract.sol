@@ -1,12 +1,14 @@
 pragma solidity ^0.5.16;
 
 contract jobscontract {
+    address public deployer;
     address public client;
     address public tasker;
 
     uint256 public payAmount;
 
     constructor(address _client, address _tasker) public {
+        deployer=msg.sender;
         client = _client;
         tasker = _tasker;
 
@@ -18,4 +20,13 @@ contract jobscontract {
         require(client == msg.sender);
         payAmount += msg.value;
     }
+    function sendPayAmountToTasker() public {
+    require(deployer == msg.sender);
+
+    // transfer pay amount to tasker
+    tasker.transfer(payAmount);
+
+    // nullify pay amount manually
+    payAmount = 0;
+  }
 }
